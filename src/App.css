@@ -1,0 +1,1360 @@
+/* ==========================================================================
+   IndieGameHub — Fase 2: Página no App.tsx
+   Abordagem mobile first:
+   - Estilos base ............ mobile  (até 767px)
+   - @media (min-width: 768px)  tablet  (768px a 1023px)
+   - @media (min-width: 1024px) desktop (a partir de 1024px)
+   ========================================================================== */
+
+/* ==========================================================================
+   1. Design tokens (variáveis CSS)
+   ========================================================================== */
+:root {
+  /* Cores — superfícies escuras (cabeçalho, destaque e rodapé) */
+  --color-navy-950: #070b16;
+  --color-navy-900: #0b1222;
+  --color-navy-800: #121b30;
+  --color-navy-700: #1d2843;
+  --color-navy-600: #2a3756;
+
+  /* Cores — superfícies claras (conteúdo) */
+  --color-bg: #f2f4f9;
+  --color-surface: #ffffff;
+  --color-surface-muted: #e8ecf5;
+  --color-border: #dfe4ee;
+
+  /* Cores — texto */
+  --color-text: #0f172a;
+  --color-text-muted: #5a6478;
+  --color-text-inverse: #f5f7fb;
+  --color-text-inverse-muted: #a3adc2;
+
+  /* Cores — marca e estados */
+  --color-primary: #2f6bff;
+  --color-primary-hover: #1d55e6;
+  --color-primary-soft: #e7eeff;
+  --color-primary-border: rgb(47 107 255 / 0.28);
+  --color-accent: #f6a723;
+  --color-accent-text: #3a2400;
+  --color-highlight: #5cc8ff;
+  --color-heart: #ef3f5b;
+  --color-heart-hover: #d92c48;
+  --color-heart-soft: #ffe5ea;
+  --color-price: #138a48;
+  --color-star: #fbbf24;
+  --color-violet: #7c3aed;
+  --color-violet-soft: #f1e8ff;
+  --color-violet-border: rgb(124 58 237 / 0.28);
+
+  /* Tipografia */
+  --font-heading: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 2.75rem;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+
+  --tracking-wide: 0.06em;
+
+  /* Espaçamentos */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Layout */
+  --container-max: 1280px;
+  --container-padding: var(--space-4);
+  --header-height: 4rem;
+
+  /* Bordas, sombras e transições */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+
+  --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.06), 0 1px 3px rgb(15 23 42 / 0.08);
+  --shadow-md: 0 12px 28px rgb(15 23 42 / 0.12);
+  --shadow-lg: 0 24px 50px rgb(7 11 22 / 0.28);
+  --shadow-glow: 0 8px 24px rgb(47 107 255 / 0.35);
+
+  --transition-fast: 180ms ease;
+  --transition-base: 300ms ease;
+  --transition-slow: 600ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ==========================================================================
+   2. Reset e base
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-height) + var(--space-4));
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+ul {
+  list-style: none;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  line-height: var(--leading-tight);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-highlight);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+/* ==========================================================================
+   3. Componentes reutilizáveis
+   ========================================================================== */
+
+/* --- Botões --- */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.button svg {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+.button__arrow {
+  transition: transform var(--transition-fast);
+}
+
+.button:hover .button__arrow {
+  transform: translateX(3px);
+}
+
+.button--primary {
+  background-color: var(--color-primary);
+  color: #fff;
+  box-shadow: var(--shadow-glow);
+}
+
+.button--primary:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+}
+
+.button--ghost {
+  background-color: rgb(255 255 255 / 0.06);
+  border: 1px solid rgb(255 255 255 / 0.18);
+}
+
+.button--ghost:hover {
+  background-color: rgb(255 255 255 / 0.12);
+  transform: translateY(-2px);
+}
+
+.button--large {
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--text-base);
+}
+
+.button--small {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-xs);
+  box-shadow: none;
+}
+
+/* --- Botão de ícone (cabeçalho) --- */
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-md);
+  background-color: var(--color-navy-700);
+  border: 1px solid var(--color-navy-600);
+  color: var(--color-text-inverse);
+  transition: background-color var(--transition-fast);
+}
+
+.icon-button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.icon-button:hover {
+  background-color: var(--color-navy-600);
+}
+
+/* --- Etiquetas (gênero e status) --- */
+.tag {
+  display: inline-block;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.tag--genre {
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary-border);
+}
+
+.tag--status {
+  background-color: var(--color-violet-soft);
+  color: var(--color-violet);
+  border: 1px solid var(--color-violet-border);
+}
+
+/* --- Card base (compartilhado pelas duas listagens) --- */
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary-border);
+}
+
+.card__media {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-navy-800);
+}
+
+.card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.card:hover .card__image {
+  transform: scale(1.06);
+}
+
+/* --- Botão de favoritar (sobre a imagem do card) --- */
+.favorite-button {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-sm);
+  background-color: rgb(255 255 255 / 0.92);
+  color: var(--color-text-muted);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.favorite-button svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.favorite-button:hover {
+  color: var(--color-heart);
+  transform: scale(1.1);
+}
+
+.favorite-button--active {
+  background-color: var(--color-heart-soft);
+  color: var(--color-heart);
+}
+
+.favorite-button--active svg {
+  fill: currentColor;
+}
+
+/* --- Selo de avaliação (sobre a imagem do card) --- */
+.rating-badge {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  background-color: rgb(7 11 22 / 0.78);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+}
+
+.rating-badge__star {
+  color: var(--color-star);
+}
+
+/* ==========================================================================
+   4. Cabeçalho
+   ========================================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: rgb(11 18 34 / 0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgb(255 255 255 / 0.06);
+  color: var(--color-text-inverse);
+}
+
+.site-header__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--header-height);
+}
+
+/* --- Marca --- */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-right: auto;
+}
+
+.brand__logo {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 2px solid var(--color-highlight);
+  border-radius: var(--radius-md);
+  color: var(--color-highlight);
+  transition: transform var(--transition-base);
+}
+
+.brand:hover .brand__logo {
+  transform: rotate(-8deg) scale(1.05);
+}
+
+.brand__logo svg {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.brand__name {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.01em;
+}
+
+.brand__badge {
+  display: none;
+  padding: 2px var(--space-2);
+  border: 1px solid var(--color-navy-600);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-navy-700);
+  font-size: 0.6875rem;
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-highlight);
+}
+
+/* --- Navegação (recolhida no mobile) --- */
+.main-nav {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: none;
+  padding: var(--space-2) var(--container-padding) var(--space-4);
+  background-color: var(--color-navy-900);
+  border-bottom: 1px solid var(--color-navy-700);
+  box-shadow: var(--shadow-lg);
+}
+
+.main-nav--open {
+  display: block;
+  animation: slide-down 220ms ease;
+}
+
+.main-nav__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.main-nav__link {
+  display: block;
+  padding: var(--space-3) var(--space-2);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-inverse-muted);
+  font-weight: var(--weight-medium);
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.main-nav__link:hover {
+  color: var(--color-text-inverse);
+  background-color: var(--color-navy-700);
+}
+
+.main-nav__link--active {
+  color: var(--color-text-inverse);
+}
+
+/* --- Ações (busca, wishlist e menu) --- */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.search {
+  display: none;
+}
+
+.wishlist-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 2.5rem;
+  padding-inline: var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--color-heart);
+  color: #fff;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  box-shadow: 0 6px 18px rgb(239 63 91 / 0.35);
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.wishlist-button:hover {
+  background-color: var(--color-heart-hover);
+  transform: translateY(-1px);
+}
+
+.wishlist-button svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: currentColor;
+}
+
+.wishlist-button__label {
+  display: none;
+}
+
+.wishlist-button__count {
+  font-weight: var(--weight-bold);
+}
+
+/* ==========================================================================
+   5. Destaque (hero)
+   ========================================================================== */
+.hero {
+  padding-block: var(--space-6) var(--space-2);
+}
+
+.hero__panel {
+  position: relative;
+  display: grid;
+  gap: var(--space-8);
+  overflow: hidden;
+  padding: var(--space-6) var(--space-5);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at 12% 0%, rgb(47 107 255 / 0.38), transparent 45%),
+    radial-gradient(circle at 95% 100%, rgb(124 58 237 / 0.32), transparent 50%),
+    var(--color-navy-900);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-lg);
+}
+
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  animation: fade-up 700ms ease both;
+}
+
+.hero__badge {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-accent);
+  color: var(--color-accent-text);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.hero__title {
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-extrabold);
+  letter-spacing: -0.02em;
+}
+
+.hero__title-highlight {
+  background: linear-gradient(90deg, var(--color-highlight), #8b9dff 60%, #c084fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero__text {
+  max-width: 52ch;
+  color: var(--color-text-inverse-muted);
+}
+
+.hero__stats {
+  display: none;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-highlight);
+}
+
+.hero__stats li + li::before {
+  content: '•';
+  margin-right: var(--space-4);
+  color: var(--color-text-inverse-muted);
+}
+
+.hero__stats strong {
+  font-weight: var(--weight-bold);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.hero__secondary-action {
+  display: none;
+}
+
+/* --- Card do jogo em destaque (tablet e desktop) --- */
+.featured-card {
+  position: relative;
+  display: none;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 0.14);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  animation: fade-up 700ms 150ms ease both;
+  transition: transform var(--transition-base);
+}
+
+.featured-card:hover {
+  transform: translateY(-4px);
+}
+
+.featured-card__image {
+  width: 100%;
+  aspect-ratio: 616 / 353;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.featured-card:hover .featured-card__image {
+  transform: scale(1.04);
+}
+
+.featured-card__caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: var(--space-10) var(--space-5) var(--space-4);
+  background: linear-gradient(transparent, rgb(7 11 22 / 0.94));
+}
+
+.featured-card__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: #fff;
+}
+
+.featured-card__subtitle {
+  font-size: var(--text-xs);
+  color: var(--color-highlight);
+}
+
+/* ==========================================================================
+   6. Filtros
+   ========================================================================== */
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-block: var(--space-5) var(--space-2);
+}
+
+.filters__label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* No mobile os chips rolam na horizontal, de borda a borda */
+.chip-list {
+  display: flex;
+  gap: var(--space-2);
+  margin-inline: calc(var(--container-padding) * -1);
+  padding: 0 var(--container-padding) var(--space-2);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+
+.chip-list::-webkit-scrollbar {
+  display: none;
+}
+
+.chip-list__item {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.chip:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.chip__count {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.chip--active,
+.chip--active:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.chip--active .chip__count {
+  color: rgb(255 255 255 / 0.8);
+}
+
+.filters__selects {
+  display: none;
+  gap: var(--space-3);
+}
+
+.select {
+  appearance: none;
+  min-width: 11rem;
+  padding: var(--space-2) var(--space-10) var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235a6478' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-3) center;
+  background-size: 1rem;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.select:hover {
+  border-color: var(--color-primary);
+}
+
+.select-field--platform {
+  display: none;
+}
+
+/* ==========================================================================
+   7. Seções e cabeçalho de seção
+   ========================================================================== */
+.section {
+  padding-block: var(--space-6);
+}
+
+.section__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border-left: 4px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-muted);
+}
+
+.section__header--releases {
+  border-left-color: var(--color-violet);
+}
+
+.section__eyebrow {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.section__header--releases .section__eyebrow {
+  color: var(--color-violet);
+}
+
+.section__title {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+}
+
+.section__subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   8. Listagem principal — catálogo de jogos
+   ========================================================================== */
+.game-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+.game-grid__item {
+  display: flex;
+}
+
+.game-card__media {
+  aspect-ratio: 616 / 353;
+}
+
+.game-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5) var(--space-5);
+}
+
+.game-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.game-card__studio strong {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+}
+
+.game-card__title {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+}
+
+.game-card__description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  color: var(--color-text-muted);
+}
+
+.platform-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+}
+
+.platform-list__item {
+  padding: 2px var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+}
+
+.game-card__footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.game-card__price {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  line-height: 1;
+  color: var(--color-price);
+}
+
+.game-card__year {
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.list-status {
+  margin-top: var(--space-6);
+  padding: var(--space-3) var(--space-4);
+  border: 1px dashed var(--color-primary-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary-soft);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  text-align: center;
+  color: var(--color-primary);
+}
+
+/* ==========================================================================
+   9. Listagem secundária — próximos lançamentos
+   ========================================================================== */
+.release-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+.release-grid__item {
+  display: flex;
+}
+
+.release-card__media {
+  aspect-ratio: 16 / 7;
+}
+
+.release-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5) var(--space-5);
+}
+
+.release-card__title {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+.release-card__studio {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.release-card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  margin-top: auto;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.release-card__date {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.release-card__date strong {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+}
+
+/* ==========================================================================
+   10. Rodapé
+   ========================================================================== */
+.site-footer {
+  margin-top: var(--space-12);
+  background-color: var(--color-navy-900);
+  color: var(--color-text-inverse-muted);
+}
+
+.site-footer__grid {
+  display: grid;
+  gap: var(--space-8);
+  padding-block: var(--space-10) var(--space-8);
+}
+
+.site-footer__brand .brand {
+  margin-right: 0;
+  color: var(--color-text-inverse);
+}
+
+.site-footer__description {
+  max-width: 34ch;
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+}
+
+.site-footer__title {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-inverse);
+}
+
+.site-footer__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.site-footer__list a {
+  transition: color var(--transition-fast);
+}
+
+.site-footer__list a:hover {
+  color: var(--color-highlight);
+}
+
+.site-footer__bottom {
+  padding-block: var(--space-5);
+  border-top: 1px solid var(--color-navy-700);
+  font-size: var(--text-xs);
+}
+
+/* ==========================================================================
+   11. Animações
+   ========================================================================== */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   12. Tablet — a partir de 768px
+   ========================================================================== */
+@media (min-width: 768px) {
+  :root {
+    --container-padding: var(--space-6);
+    --header-height: 4.5rem;
+  }
+
+  /* Cabeçalho: menu expandido, busca visível e botões de ícone ocultos */
+  .brand {
+    margin-right: var(--space-2);
+  }
+
+  .main-nav {
+    position: static;
+    display: block;
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+  }
+
+  .main-nav__list {
+    flex-direction: row;
+    gap: var(--space-1);
+  }
+
+  .main-nav__link {
+    padding: var(--space-2);
+    font-size: var(--text-sm);
+  }
+
+  .main-nav__link--active {
+    border-radius: 0;
+    box-shadow: inset 0 -2px 0 var(--color-highlight);
+  }
+
+  .main-nav__link--active:hover {
+    background: none;
+  }
+
+  .header-actions {
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  .icon-button--search,
+  .icon-button--menu {
+    display: none;
+  }
+
+  .search {
+    display: flex;
+    flex: 0 1 12rem;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 0;
+    height: 2.5rem;
+    padding-inline: var(--space-3);
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  .search:focus-within {
+    border-color: var(--color-highlight);
+    box-shadow: 0 0 0 3px rgb(92 200 255 / 0.3);
+  }
+
+  .search__icon {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-text-muted);
+  }
+
+  .search__input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: var(--text-sm);
+  }
+
+  .search__input::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  .search__shortcut {
+    display: none;
+  }
+
+  /* Destaque em duas colunas, com o card do jogo em destaque */
+  .hero {
+    padding-top: var(--space-8);
+  }
+
+  .hero__panel {
+    grid-template-columns: 1.1fr 1fr;
+    align-items: center;
+    gap: var(--space-8);
+    padding: var(--space-8);
+  }
+
+  .hero__title {
+    font-size: var(--text-4xl);
+  }
+
+  .featured-card {
+    display: block;
+  }
+
+  /* Filtros: chips quebram linha e a ordenação aparece à direita */
+  .filters {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .filters__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .chip-list {
+    flex-wrap: wrap;
+    margin-inline: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .chip {
+    padding: var(--space-1) var(--space-3);
+  }
+
+  .filters__selects {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  /* Listagens: catálogo em 2 colunas e lançamentos em 3 colunas */
+  .game-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .release-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+
+  .release-card__body {
+    padding-inline: var(--space-4);
+  }
+
+  /* Rodapé em 3 colunas */
+  .site-footer__grid {
+    grid-template-columns: 1.4fr 1fr 1fr;
+  }
+}
+
+/* ==========================================================================
+   13. Desktop — a partir de 1024px
+   ========================================================================== */
+@media (min-width: 1024px) {
+  :root {
+    --container-padding: var(--space-8);
+    --header-height: 5rem;
+  }
+
+  /* Cabeçalho completo: selo da marca, atalho de busca e rótulo da wishlist */
+  .brand__badge {
+    display: inline-block;
+  }
+
+  .main-nav__link {
+    padding-inline: var(--space-3);
+    font-size: var(--text-base);
+  }
+
+  .search {
+    flex-basis: 20rem;
+  }
+
+  .search__shortcut {
+    display: inline-block;
+    padding: 1px var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .wishlist-button {
+    padding-inline: var(--space-4);
+  }
+
+  .wishlist-button__label {
+    display: inline;
+  }
+
+  /* Destaque com estatísticas e botão secundário */
+  .hero__panel {
+    grid-template-columns: 1.35fr 1fr;
+    gap: var(--space-12);
+    padding: var(--space-10) var(--space-12);
+  }
+
+  .hero__title {
+    font-size: var(--text-5xl);
+  }
+
+  .hero__stats {
+    display: flex;
+  }
+
+  .hero__secondary-action {
+    display: inline-flex;
+  }
+
+  /* Filtros com seletor de plataforma */
+  .select-field--platform {
+    display: block;
+  }
+
+  /* Seções */
+  .section {
+    padding-block: var(--space-8);
+  }
+
+  .section__title {
+    font-size: var(--text-3xl);
+  }
+
+  /* Listagens: catálogo em 3 colunas */
+  .game-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+
+  .release-grid {
+    gap: var(--space-6);
+  }
+
+  .release-card__body {
+    padding-inline: var(--space-5);
+  }
+}
