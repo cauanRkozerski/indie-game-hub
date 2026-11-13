@@ -9,18 +9,15 @@ type CardLancamentoProps = {
   onLembrar: (id: string) => void
 }
 
-// Card de um item da listagem secundária (próximos lançamentos)
 function CardLancamento({ lancamento, favorito, onFavoritar, lembreteAtivo, onLembrar }: CardLancamentoProps) {
   return (
     <article className="card release-card">
       <div className="card__media release-card__media">
-        <img className="card__image" src={lancamento.imagem} alt={`Arte de ${lancamento.titulo}`} loading="lazy" />
+        <img className="card__image" src={lancamento.imagem} alt={lancamento.titulo} />
 
         <button
           type="button"
           className={favorito ? 'favorite-button favorite-button--active' : 'favorite-button'}
-          aria-label={favorito ? `Remover ${lancamento.titulo} da wishlist` : `Adicionar ${lancamento.titulo} à wishlist`}
-          aria-pressed={favorito}
           onClick={() => onFavoritar(lancamento.id)}
         >
           <IconeCoracao />
@@ -30,7 +27,8 @@ function CardLancamento({ lancamento, favorito, onFavoritar, lembreteAtivo, onLe
       <div className="release-card__body">
         <span className="tag tag--status">{lancamento.status}</span>
         <h3 className="release-card__title">{lancamento.titulo}</h3>
-        <p className="release-card__studio">por {lancamento.estudio}</p>
+        <p className="release-card__studio">Estúdio: {lancamento.estudio}</p>
+        <p className="release-card__platforms">Plataformas: {lancamento.plataformas}</p>
 
         <footer className="release-card__footer">
           <p className="release-card__date">
@@ -38,8 +36,9 @@ function CardLancamento({ lancamento, favorito, onFavoritar, lembreteAtivo, onLe
           </p>
           <button
             type="button"
-            className={lembreteAtivo ? 'button button--reminder-active button--small' : 'button button--primary button--small'}
-            aria-pressed={lembreteAtivo}
+            className={
+              lembreteAtivo ? 'button button--reminder-active button--small' : 'button button--primary button--small'
+            }
             onClick={() => onLembrar(lancamento.id)}
           >
             <IconeSino />

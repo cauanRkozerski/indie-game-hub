@@ -1,14 +1,15 @@
-// Formato de cada item da listagem secundária (Próximos lançamentos)
+// Tipo para os itens da listagem secundária (Próximos lançamentos)
 export type Lancamento = {
   id: string
   titulo: string
   estudio: string
   status: string
   previsao: string
+  plataformas: string
   imagem: string
 }
 
-// Vetor local com os lançamentos. Essa listagem continua local também na Fase 4.
+// Vetor local de objetos da listagem secundária
 export const lancamentos: Lancamento[] = [
   {
     id: 'silksong',
@@ -16,6 +17,7 @@ export const lancamentos: Lancamento[] = [
     estudio: 'Team Cherry',
     status: 'Mais aguardado',
     previsao: '2026/2027',
+    plataformas: 'PC, Switch, Xbox Series, PS5',
     imagem: '/images/hollow-knight-silksong.jpg',
   },
   {
@@ -23,15 +25,17 @@ export const lancamentos: Lancamento[] = [
     titulo: 'Mina the Hollower',
     estudio: 'Yacht Club Games',
     status: 'Em breve',
-    previsao: '4º tri. 2026',
+    previsao: 'Q4 2026',
+    plataformas: 'PC, Nintendo Switch, PS5',
     imagem: '/images/mina-the-hollower.jpg',
   },
   {
     id: 'crowsworn',
     titulo: 'Crowsworn',
-    estudio: 'Sunlight Games',
+    estudio: 'Mongoose Rodeo',
     status: 'Em desenvolvimento',
     previsao: '2027',
+    plataformas: 'PC, PlayStation e Xbox',
     imagem: '/images/crowsworn.jpg',
   },
 ]

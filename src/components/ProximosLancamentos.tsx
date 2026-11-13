@@ -9,16 +9,19 @@ type ProximosLancamentosProps = {
   onLembrar: (id: string) => void
 }
 
-// Listagem secundária: próximos lançamentos do cenário indie
-function ProximosLancamentos({ lancamentos, favoritos, onFavoritar, lembretes, onLembrar }: ProximosLancamentosProps) {
+function ProximosLancamentos({
+  lancamentos,
+  favoritos,
+  onFavoritar,
+  lembretes,
+  onLembrar,
+}: ProximosLancamentosProps) {
   return (
-    <section id="lancamentos" className="section" aria-labelledby="lancamentos-titulo">
+    <section id="lancamentos" className="section">
       <div className="container">
         <header className="section__header section__header--releases">
-          <p className="section__eyebrow">Listagem secundária</p>
-          <h2 id="lancamentos-titulo" className="section__title">
-            Próximos lançamentos
-          </h2>
+          <p className="section__eyebrow">2. Listagem secundária</p>
+          <h2 className="section__title">Próximos lançamentos</h2>
           <p className="section__subtitle">Os jogos independentes mais aguardados. Ative um lembrete para não perder.</p>
         </header>
 

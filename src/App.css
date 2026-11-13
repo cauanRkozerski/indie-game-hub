@@ -990,7 +990,8 @@ h3 {
   font-weight: var(--weight-bold);
 }
 
-.release-card__studio {
+.release-card__studio,
+.release-card__platforms {
   font-size: var(--text-xs);
   color: var(--color-text-muted);
 }

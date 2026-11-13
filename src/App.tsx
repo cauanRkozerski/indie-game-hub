@@ -10,38 +10,45 @@ import { lancamentos } from './data/lancamentos'
 import './App.css'
 
 function App() {
-  // Lista com os ids dos jogos favoritados (wishlist)
-  const [favoritos, setFavoritos] = useState<string[]>([])
-  // Gênero escolhido no filtro do catálogo
-  const [generoSelecionado, setGeneroSelecionado] = useState('Todos')
-  // Lista com os ids dos lançamentos que o usuário pediu para ser lembrado
+  // Começa com os 3 jogos favoritados mostrados no wireframe
+  const [favoritos, setFavoritos] = useState<string[]>(['hollow-knight', 'celeste', 'hades'])
+  const [generoSelecionado, setGeneroSelecionado] = useState<string>('Todos')
+  const [busca, setBusca] = useState<string>('')
   const [lembretes, setLembretes] = useState<string[]>([])
 
-  // Se o id já está na wishlist, remove. Se não está, adiciona.
   function alternarFavorito(id: string) {
     if (favoritos.includes(id)) {
-      setFavoritos(favoritos.filter((favoritoId) => favoritoId !== id))
+      setFavoritos(favoritos.filter((item) => item !== id))
     } else {
       setFavoritos([...favoritos, id])
     }
   }
 
-  // Mesma ideia dos favoritos, mas para o botão "Lembrar" dos lançamentos
   function alternarLembrete(id: string) {
     if (lembretes.includes(id)) {
-      setLembretes(lembretes.filter((lembreteId) => lembreteId !== id))
+      setLembretes(lembretes.filter((item) => item !== id))
     } else {
       setLembretes([...lembretes, id])
     }
   }
 
-  // Jogos que aparecem na tela de acordo com o gênero selecionado
-  const jogosFiltrados =
-    generoSelecionado === 'Todos' ? jogos : jogos.filter((jogo) => jogo.genero === generoSelecionado)
+  // Filtra os jogos pelo gênero clicado e pelo texto digitado na busca
+  const jogosFiltrados = jogos.filter((jogo) => {
+    const bateGenero = generoSelecionado === 'Todos' || jogo.genero === generoSelecionado
+    const termo = busca.toLowerCase()
+    const bateBusca =
+      jogo.titulo.toLowerCase().includes(termo) || jogo.estudio.toLowerCase().includes(termo)
+
+    return bateGenero && bateBusca
+  })
 
   return (
     <>
-      <Header quantidadeFavoritos={favoritos.length} />
+      <Header
+        quantidadeFavoritos={favoritos.length}
+        busca={busca}
+        onMudarBusca={setBusca}
+      />
 
       <main id="inicio">
         <Hero />
