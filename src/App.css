@@ -1375,4 +1375,9 @@ h3 {
   .release-card__body {
     padding-inline: var(--space-5);
   }
+
+  /* Rodapé em 4 colunas, como no wireframe desktop */
+  .site-footer__grid {
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  }
 }

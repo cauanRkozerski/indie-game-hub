@@ -43,6 +43,17 @@ function Footer() {
             <li>Layout responsivo mobile first</li>
           </ul>
         </section>
+
+        <section aria-labelledby="rodape-tcd">
+          <h2 id="rodape-tcd" className="site-footer__title">
+            Trabalho de Conclusão (TCD)
+          </h2>
+          <ul className="site-footer__list">
+            <li>Acadêmico: Cauan Kozerski</li>
+            <li>Disciplina: Desenvolvimento em Ambiente Web</li>
+            <li>Prof. Libas · 2º Bimestre 2026</li>
+          </ul>
+        </section>
       </div>
 
       <div className="container site-footer__bottom">
