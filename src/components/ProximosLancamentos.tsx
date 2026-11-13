@@ -5,10 +5,12 @@ type ProximosLancamentosProps = {
   lancamentos: Lancamento[]
   favoritos: string[]
   onFavoritar: (id: string) => void
+  lembretes: string[]
+  onLembrar: (id: string) => void
 }
 
 // Listagem secundária: próximos lançamentos do cenário indie
-function ProximosLancamentos({ lancamentos, favoritos, onFavoritar }: ProximosLancamentosProps) {
+function ProximosLancamentos({ lancamentos, favoritos, onFavoritar, lembretes, onLembrar }: ProximosLancamentosProps) {
   return (
     <section id="lancamentos" className="section" aria-labelledby="lancamentos-titulo">
       <div className="container">
@@ -27,6 +29,8 @@ function ProximosLancamentos({ lancamentos, favoritos, onFavoritar }: ProximosLa
                 lancamento={lancamento}
                 favorito={favoritos.includes(lancamento.id)}
                 onFavoritar={onFavoritar}
+                lembreteAtivo={lembretes.includes(lancamento.id)}
+                onLembrar={onLembrar}
               />
             </li>
           ))}

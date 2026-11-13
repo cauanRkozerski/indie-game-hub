@@ -14,6 +14,8 @@ function App() {
   const [favoritos, setFavoritos] = useState<string[]>([])
   // Gênero escolhido no filtro do catálogo
   const [generoSelecionado, setGeneroSelecionado] = useState('Todos')
+  // Lista com os ids dos lançamentos que o usuário pediu para ser lembrado
+  const [lembretes, setLembretes] = useState<string[]>([])
 
   // Se o id já está na wishlist, remove. Se não está, adiciona.
   function alternarFavorito(id: string) {
@@ -21,6 +23,15 @@ function App() {
       setFavoritos(favoritos.filter((favoritoId) => favoritoId !== id))
     } else {
       setFavoritos([...favoritos, id])
+    }
+  }
+
+  // Mesma ideia dos favoritos, mas para o botão "Lembrar" dos lançamentos
+  function alternarLembrete(id: string) {
+    if (lembretes.includes(id)) {
+      setLembretes(lembretes.filter((lembreteId) => lembreteId !== id))
+    } else {
+      setLembretes([...lembretes, id])
     }
   }
 
@@ -49,7 +60,13 @@ function App() {
           onFavoritar={alternarFavorito}
         />
 
-        <ProximosLancamentos lancamentos={lancamentos} favoritos={favoritos} onFavoritar={alternarFavorito} />
+        <ProximosLancamentos
+          lancamentos={lancamentos}
+          favoritos={favoritos}
+          onFavoritar={alternarFavorito}
+          lembretes={lembretes}
+          onLembrar={alternarLembrete}
+        />
       </main>
 
       <Footer />

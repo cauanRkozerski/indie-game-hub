@@ -243,6 +243,18 @@ h3 {
   transform: translateY(-2px);
 }
 
+/* Botão "Lembrar" depois de clicado (estado ativo, Fase 3) */
+.button--reminder-active {
+  border: 1px solid var(--color-violet-border);
+  background-color: var(--color-violet-soft);
+  color: var(--color-violet);
+}
+
+.button--reminder-active:hover {
+  background-color: var(--color-violet);
+  color: #fff;
+}
+
 .button--large {
   padding: var(--space-4) var(--space-6);
   font-size: var(--text-base);

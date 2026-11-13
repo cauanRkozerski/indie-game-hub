@@ -5,10 +5,12 @@ type CardLancamentoProps = {
   lancamento: Lancamento
   favorito: boolean
   onFavoritar: (id: string) => void
+  lembreteAtivo: boolean
+  onLembrar: (id: string) => void
 }
 
 // Card de um item da listagem secundária (próximos lançamentos)
-function CardLancamento({ lancamento, favorito, onFavoritar }: CardLancamentoProps) {
+function CardLancamento({ lancamento, favorito, onFavoritar, lembreteAtivo, onLembrar }: CardLancamentoProps) {
   return (
     <article className="card release-card">
       <div className="card__media release-card__media">
@@ -34,9 +36,14 @@ function CardLancamento({ lancamento, favorito, onFavoritar }: CardLancamentoPro
           <p className="release-card__date">
             Previsto: <strong>{lancamento.previsao}</strong>
           </p>
-          <button type="button" className="button button--primary button--small">
+          <button
+            type="button"
+            className={lembreteAtivo ? 'button button--reminder-active button--small' : 'button button--primary button--small'}
+            aria-pressed={lembreteAtivo}
+            onClick={() => onLembrar(lancamento.id)}
+          >
             <IconeSino />
-            Lembrar
+            {lembreteAtivo ? 'Lembrete ativo' : 'Lembrar'}
           </button>
         </footer>
       </div>
