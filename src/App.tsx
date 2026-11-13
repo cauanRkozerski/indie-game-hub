@@ -1,172 +1,19 @@
-import { useState } from 'react'
+import Header from './components/Header'
+import Hero from './components/Hero'
+import Footer from './components/Footer'
 import './App.css'
 
 /*
- * IndieGameHub — Fase 2: Página no App.tsx
- *
- * Toda a página está escrita neste arquivo, sem dados nem componentes.
- * Os cards das duas listagens são repetidos manualmente no JSX, de propósito:
- * na Fase 3 essa marcação será reorganizada em componentes + dados.
+ * IndieGameHub — Fase 3 (em andamento)
+ * Cabeçalho, destaque e rodapé já foram extraídos para componentes.
  */
 function App() {
-  // Único estado da página: abrir/fechar o menu recolhido do mobile
-  const [menuAberto, setMenuAberto] = useState(false)
-
   return (
     <>
-      {/* ================= CABEÇALHO ================= */}
-      <header className="site-header">
-        <div className="container site-header__inner">
-          <a href="#inicio" className="brand" aria-label="IndieGameHub — página inicial">
-            <span className="brand__logo" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="6" width="20" height="12" rx="3" />
-                <line x1="6" y1="12" x2="10" y2="12" />
-                <line x1="8" y1="10" x2="8" y2="14" />
-                <line x1="15" y1="13" x2="15.01" y2="13" />
-                <line x1="18" y1="11" x2="18.01" y2="11" />
-              </svg>
-            </span>
-            <span className="brand__name">IndieGameHub</span>
-            <span className="brand__badge">INDIE VAULT</span>
-          </a>
-
-          <nav
-            id="menu-principal"
-            className={menuAberto ? 'main-nav main-nav--open' : 'main-nav'}
-            aria-label="Navegação principal"
-          >
-            <ul className="main-nav__list">
-              <li>
-                <a id="nav-inicio" href="#inicio" className="main-nav__link main-nav__link--active" aria-current="page">
-                  Início
-                </a>
-              </li>
-              <li>
-                <a id="nav-catalogo" href="#catalogo" className="main-nav__link">
-                  Catálogo
-                </a>
-              </li>
-              <li>
-                <a id="nav-lancamentos" href="#lancamentos" className="main-nav__link">
-                  Lançamentos
-                </a>
-              </li>
-              <li>
-                <a id="nav-sobre" href="#sobre" className="main-nav__link">
-                  Sobre
-                </a>
-              </li>
-            </ul>
-          </nav>
-
-          <div className="header-actions">
-            <form className="search" role="search" onSubmit={(evento) => evento.preventDefault()}>
-              <svg className="search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-                <circle cx="11" cy="11" r="7" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-              <label htmlFor="campo-busca" className="visually-hidden">
-                Buscar jogos ou estúdios
-              </label>
-              <input id="campo-busca" className="search__input" type="search" placeholder="Buscar jogos ou estúdios..." />
-              <kbd className="search__shortcut">Ctrl K</kbd>
-            </form>
-
-            <button id="btn-busca-mobile" type="button" className="icon-button icon-button--search" aria-label="Abrir busca">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-                <circle cx="11" cy="11" r="7" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-            </button>
-
-            <a id="btn-wishlist" href="#catalogo" className="wishlist-button" aria-label="Wishlist com 3 jogos">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-              </svg>
-              <span className="wishlist-button__label">Wishlist</span>
-              <span className="wishlist-button__count">3</span>
-            </a>
-
-            <button
-              id="btn-menu"
-              type="button"
-              className="icon-button icon-button--menu"
-              aria-label={menuAberto ? 'Fechar menu' : 'Abrir menu'}
-              aria-expanded={menuAberto}
-              aria-controls="menu-principal"
-              onClick={() => setMenuAberto(!menuAberto)}
-            >
-              {menuAberto ? (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                </svg>
-              ) : (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-                  <line x1="4" y1="7" x2="20" y2="7" />
-                  <line x1="4" y1="12" x2="20" y2="12" />
-                  <line x1="4" y1="17" x2="20" y2="17" />
-                </svg>
-              )}
-            </button>
-          </div>
-        </div>
-      </header>
+      <Header quantidadeFavoritos={3} />
 
       <main id="inicio">
-        {/* ================= DESTAQUE (HERO) ================= */}
-        <section className="hero" aria-labelledby="hero-titulo">
-          <div className="container">
-            <div className="hero__panel">
-              <div className="hero__content">
-                <p className="hero__badge">Destaque da semana · Metroidvania do ano</p>
-                <h1 id="hero-titulo" className="hero__title">
-                  Descubra e apoie grandes <span className="hero__title-highlight">histórias indie</span>
-                </h1>
-                <p className="hero__text">
-                  Um catálogo independente com jogos autorais, avaliações da comunidade e os lançamentos mais aguardados
-                  do cenário indie mundial.
-                </p>
-                <ul className="hero__stats" aria-label="Números da plataforma">
-                  <li>
-                    <strong>+120</strong> jogos cadastrados
-                  </li>
-                  <li>
-                    <strong>+45</strong> estúdios independentes
-                  </li>
-                  <li>
-                    <strong>98%</strong> de avaliações positivas
-                  </li>
-                </ul>
-                <div className="hero__actions">
-                  <a id="btn-explorar-catalogo" href="#catalogo" className="button button--primary button--large">
-                    Explorar catálogo <span className="button__arrow" aria-hidden="true">→</span>
-                  </a>
-                  <a id="btn-proximos-lancamentos" href="#lancamentos" className="button button--ghost button--large hero__secondary-action">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                    </svg>
-                    Próximos lançamentos
-                  </a>
-                </div>
-              </div>
-
-              <figure className="featured-card">
-                <img
-                  className="featured-card__image"
-                  src="/images/hollow-knight-silksong.jpg"
-                  alt="Arte de Hollow Knight: Silksong com a protagonista Hornet"
-                />
-                <figcaption className="featured-card__caption">
-                  <p className="featured-card__title">Hollow Knight: Silksong</p>
-                  <p className="featured-card__subtitle">Team Cherry · Em breve no PC e consoles</p>
-                </figcaption>
-              </figure>
-            </div>
-          </div>
-        </section>
+        <Hero />
 
         {/* ================= FILTROS ================= */}
         <div className="container filters">
@@ -820,62 +667,7 @@ function App() {
         </section>
       </main>
 
-      {/* ================= RODAPÉ ================= */}
-      <footer id="sobre" className="site-footer">
-        <div className="container site-footer__grid">
-          <section className="site-footer__brand" aria-label="Sobre o IndieGameHub">
-            <a href="#inicio" className="brand">
-              <span className="brand__logo" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="6" width="20" height="12" rx="3" />
-                  <line x1="6" y1="12" x2="10" y2="12" />
-                  <line x1="8" y1="10" x2="8" y2="14" />
-                  <line x1="15" y1="13" x2="15.01" y2="13" />
-                  <line x1="18" y1="11" x2="18.01" y2="11" />
-                </svg>
-              </span>
-              <span className="brand__name">IndieGameHub</span>
-            </a>
-            <p className="site-footer__description">
-              Plataforma dedicada à divulgação, descoberta e valorização de jogos digitais independentes.
-            </p>
-          </section>
-
-          <nav aria-labelledby="rodape-navegacao">
-            <h2 id="rodape-navegacao" className="site-footer__title">
-              Navegação
-            </h2>
-            <ul className="site-footer__list">
-              <li>
-                <a href="#inicio">Início</a>
-              </li>
-              <li>
-                <a href="#catalogo">Catálogo de jogos</a>
-              </li>
-              <li>
-                <a href="#lancamentos">Próximos lançamentos</a>
-              </li>
-            </ul>
-          </nav>
-
-          <section aria-labelledby="rodape-recursos">
-            <h2 id="rodape-recursos" className="site-footer__title">
-              Recursos técnicos
-            </h2>
-            <ul className="site-footer__list">
-              <li>React + TypeScript + Vite</li>
-              <li>CSS puro com variáveis</li>
-              <li>Layout responsivo mobile first</li>
-            </ul>
-          </section>
-        </div>
-
-        <div className="container site-footer__bottom">
-          <p>
-            © 2026 IndieGameHub · Projeto acadêmico. As imagens dos jogos pertencem aos seus respectivos estúdios.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </>
   )
 }
