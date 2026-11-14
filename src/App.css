@@ -243,6 +243,18 @@ h3 {
   transform: translateY(-2px);
 }
 
+/* Botão "Lembrar" depois de clicado (estado ativo, Fase 3) */
+.button--reminder-active {
+  border: 1px solid var(--color-violet-border);
+  background-color: var(--color-violet-soft);
+  color: var(--color-violet);
+}
+
+.button--reminder-active:hover {
+  background-color: var(--color-violet);
+  color: #fff;
+}
+
 .button--large {
   padding: var(--space-4) var(--space-6);
   font-size: var(--text-base);
@@ -978,7 +990,8 @@ h3 {
   font-weight: var(--weight-bold);
 }
 
-.release-card__studio {
+.release-card__studio,
+.release-card__platforms {
   font-size: var(--text-xs);
   color: var(--color-text-muted);
 }
@@ -1173,10 +1186,17 @@ h3 {
   }
 
   .search__icon {
+    display: flex;
     flex-shrink: 0;
     width: 1rem;
     height: 1rem;
     color: var(--color-text-muted);
+  }
+
+  .search__icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
   .search__input {
@@ -1356,5 +1376,10 @@ h3 {
 
   .release-card__body {
     padding-inline: var(--space-5);
+  }
+
+  /* Rodapé em 4 colunas, como no wireframe desktop */
+  .site-footer__grid {
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
   }
 }
